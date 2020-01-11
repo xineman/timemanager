@@ -29,7 +29,7 @@ interface Props {
 }
 
 const CreateTask: React.FC<Props> = ({ navigation }) => {
-    const { control, register, setValue, handleSubmit, errors } = useForm<CreateTaskDTO>();
+    const { register, setValue, handleSubmit, errors } = useForm<CreateTaskDTO>();
     const { createTask } = useContext(TasksContext);
 
     const suggestions = useMemo(() => {
@@ -77,21 +77,15 @@ const CreateTask: React.FC<Props> = ({ navigation }) => {
                         onChangeText={text => setValue('targetTime', Number(text), true)}
                     />
                     {/* TODO: fix default value */}
-                    <Controller
-                        as={(
-                            <Picker
-                                style={styles.input}
-                                label="Sessions per week"
-                                placeholder={sessionsNumberPlaceholder}
-                                placeholderTextColor={colors.grey[2]}
-                                onValueChange={value => setValue('sessionsNumber', value, true)}
-                                items={sessionsNumberOptions}
-                            />
-                        )}
-                        control={control}
-                        name="sessionsNumber"
-                        rules={{ required: true }}
-                        defaultValue={sessionsNumberOptions[suggestions.sessionsNumber]}
+                    <Picker
+                        style={styles.input}
+                        label="Sessions per week"
+                        placeholder={sessionsNumberPlaceholder}
+                        placeholderTextColor={colors.grey[2]}
+                        onValueChange={value => setValue('sessionsNumber', value, true)}
+                        items={sessionsNumberOptions}
+                        // @ts-ignore
+                        ref={register({ name: 'sessionsNumber' }, { required: true })}
                     />
                 </View>
                 <Button label="Create" onPress={handleSubmit(onSubmit)} />

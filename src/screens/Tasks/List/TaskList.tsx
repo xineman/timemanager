@@ -31,18 +31,24 @@ const TaskList = () => {
 
     return (
         <Screen style={styles.root}>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>Task</Text>
-                <Text style={styles.headerText}>Goal</Text>
-            </View>
-    
-            <FlatList
-                style={styles.list}
-                data={tasks}
-                keyExtractor={({ id }) => id.toString()}
-                renderItem={({ item }) => <TaskListItem {...item} />}
-                ItemSeparatorComponent={TaskListSeparator}
-            />
+            {tasks.length ? (
+                <>
+                    <View style={styles.header}>
+                        <Text style={styles.headerText}>Task</Text>
+                        <Text style={styles.headerText}>Goal</Text>
+                    </View>
+
+                    <FlatList
+                        style={styles.list}
+                        data={tasks}
+                        keyExtractor={({ id }) => id.toString()}
+                        renderItem={({ item }) => <TaskListItem {...item} />}
+                        ItemSeparatorComponent={TaskListSeparator}
+                    />
+                </>
+            ): (
+                <Text style={styles.noTasks}>No tasks yet</Text>
+            )}
         </Screen>
     );
 }
@@ -50,6 +56,7 @@ const TaskList = () => {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
+        justifyContent: 'center',
     },
     header: {
         ...listStyles.row,
@@ -61,6 +68,9 @@ const styles = StyleSheet.create({
     list: {
         flex: 1,
         paddingHorizontal: 10,
+    },
+    noTasks: {
+        textAlign: 'center',
     },
 });
 

@@ -22,8 +22,8 @@ export const TasksProvider: React.FC = ({ children }) => {
         setTasks(t => [...t, newTask]);
     }, []);
 
-    const removeTask = useCallback((id: string) => {
-        removeFromStorage(id);
+    const removeTask = useCallback(async (id: string) => {
+        await removeFromStorage(id);
         getTasks()
             .then(tasks => setTasks(tasks));
     }, []);
