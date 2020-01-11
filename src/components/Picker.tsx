@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: colors.blue[2],
         height: 50,
-        paddingHorizontal: 10,
         color: colors.grey[1],
     },
 });
