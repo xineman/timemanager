@@ -14,7 +14,7 @@ const CreateTaskLink: React.FC<Props> = ({ tintColor, navigation }) => {
 
     return (
         <TouchableOpacity style={styles.root} onPress={onPress}>
-            <FontAwesomeIcon icon="plus" color={tintColor} />
+            <FontAwesomeIcon icon="plus" color={tintColor} size={20}  />
         </TouchableOpacity>
     );
 }
