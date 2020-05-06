@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { TasksContextProps, Task } from './types';
-import { addTask, getTasks, removeTask as removeFromStorage } from '.';
-
+import { addItem, getItems, removeItem } from 'services/storage';
+import { TasksContextProps, Task, CreateTaskDTO } from './types';
 
 const TasksContext = React.createContext<TasksContextProps>({
     tasks: [],
@@ -13,19 +12,17 @@ export const TasksProvider: React.FC = ({ children }) => {
     const [tasks, setTasks] = useState<Task[]>([]);
 
     useEffect(() => {
-        getTasks()
-            .then(tasks => setTasks(tasks));
+        getItems<Task>('tasks').then((t) => setTasks(t));
     }, []);
 
     const createTask = useCallback(async (task: Task) => {
-        const newTask = await addTask(task);
-        setTasks(t => [...t, newTask]);
+        const newTask = await addItem<CreateTaskDTO>('tasks', task);
+        setTasks((t) => [...t, newTask]);
     }, []);
 
     const removeTask = useCallback(async (id: string) => {
-        await removeFromStorage(id);
-        getTasks()
-            .then(tasks => setTasks(tasks));
+        await removeItem('tasks', id);
+        getItems<Task>('tasks').then((t) => setTasks(t));
     }, []);
 
     return (
@@ -33,6 +30,6 @@ export const TasksProvider: React.FC = ({ children }) => {
             {children}
         </TasksContext.Provider>
     );
-}
+};
 
 export default TasksContext;
