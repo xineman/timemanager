@@ -9,6 +9,7 @@ export interface Session {
 
 export interface SessionWithPlan extends Session {
     plan: PlanWithTask;
+    accumulatedTime: number;
 }
 
 export interface SessionsContextProps {

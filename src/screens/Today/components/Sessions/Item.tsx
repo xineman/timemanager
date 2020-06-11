@@ -9,18 +9,23 @@ const SessionListItem: React.FC<SessionWithPlan> = ({
         plannedTime,
     },
     workingTime,
+    accumulatedTime,
 }) => {
     return (
         <TouchableOpacity style={styles.root}>
             <View style={styles.top}>
                 <Text style={styles.name}>{name}</Text>
-                <Text style={styles.targetTime}>{workingTime}h</Text>
+                <Text style={styles.targetTime}>
+                    +{workingTime}h ({accumulatedTime} / {plannedTime})
+                </Text>
             </View>
             <View style={styles.bar}>
                 <View
                     style={[
                         styles.progress,
-                        { width: `${(workingTime / plannedTime) * 100}%` },
+                        { width: `${(accumulatedTime / plannedTime) * 100}%` },
+                        accumulatedTime === plannedTime && styles.completed,
+                        accumulatedTime > plannedTime && styles.over,
                     ]}
                 />
             </View>
@@ -58,6 +63,12 @@ const styles = StyleSheet.create({
         left: 0,
         top: 0,
         backgroundColor: 'orange',
+    },
+    completed: {
+        backgroundColor: 'green',
+    },
+    over: {
+        backgroundColor: 'red',
     },
 });
 

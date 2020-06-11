@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import { PlanWithTask } from 'modules/Plans/types';
 import { listStyles } from 'styles/listStyles';
 import colors from 'styles/colors';
@@ -10,8 +10,24 @@ const PlanListItem: React.FC<PlanWithTask> = ({
 }) => {
     return (
         <TouchableOpacity style={styles.root}>
-            <Text style={styles.name}>{name}</Text>
-            <Text style={styles.targetTime}>{plannedTime}h</Text>
+            <View style={styles.top}>
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.targetTime}>{plannedTime}h</Text>
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.targetTime}>
+                    +{workingTime}h ({accumulatedTime} / {plannedTime})
+                </Text>
+            </View>
+            <View style={styles.bar}>
+                <View
+                    style={[
+                        styles.progress,
+                        { width: `${(accumulatedTime / plannedTime) * 100}%` },
+                        accumulatedTime === plannedTime && styles.completed,
+                        accumulatedTime > plannedTime && styles.over,
+                    ]}
+                />
+            </View>
         </TouchableOpacity>
     );
 };

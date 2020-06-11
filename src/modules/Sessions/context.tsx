@@ -12,7 +12,11 @@ export const SessionsProvider: React.FC = ({ children }) => {
     const [sessions, setSessions] = useState<Session[]>([]);
 
     useEffect(() => {
-        getItems<Session>('sessions').then((t) => setSessions(t));
+        getItems<Session>('sessions').then((t) =>
+            setSessions(
+                t.map((s) => ({ ...s, startDate: new Date(s.startDate) }))
+            )
+        );
     }, []);
 
     const createSession = useCallback(async (task: Session) => {
